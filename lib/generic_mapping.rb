@@ -41,10 +41,9 @@ module GenericMapping
     property = Hash.new
     property["type"] = data_type
     if data_type == 'string'
+      property["analyzer"] = string_analyzer
       property["fields"] = { "raw" => { "type" => "string",
-                                        "index" => "not_analyzed" },
-                             "analyzed" => { "type" => "string", 
-                                             "analyzer" => string_analyzer } }
+                                        "index" => "not_analyzed" }}
     end
     property
   end

@@ -42,7 +42,6 @@ class EsClient
         column_es_type = get_es_field_type(value.class.to_s)
         data_row["c#{i}-#{column_es_type}"] = value
       end
-      data_row["grid"] = grid_id
       res = HttpClient.post("#{index_url}/#{doc_type}?routing=#{grid_id}", body: data_row.to_json)
       raise "Data index failure #{res.to_s}" unless (res.code == 201 || res.code == 200)
     end
