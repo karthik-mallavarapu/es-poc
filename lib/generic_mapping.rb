@@ -27,13 +27,13 @@ module GenericMapping
   def get_es_field_type(ruby_type)
     case ruby_type
     when "Float"
-      TYPES["decimal"]
+      "decimal"
     when "Fixnum", "Integer", "Bignum"
-      TYPES["numeric"]
+      "numeric"
     when "Date", "DateTime"
-      TYPES["date"]
+      "date"
     when "String"
-      TYPES["string"]
+      "string"
     end
   end
 
