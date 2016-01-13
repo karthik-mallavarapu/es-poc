@@ -4,6 +4,7 @@ require 'yaml'
 
 # Default ES host name and doc type.
 config = YAML.load_file('config.yml')
+
 # User 1..create new index, mapping and populate data
 config['index_url'] = '/user1'
 client = EsClient.new(config)
@@ -16,6 +17,7 @@ client.populate_data( DataParser.new('sample_data/user1/listings2.csv'),
 client.populate_data( DataParser.new('sample_data/user1/listings3.csv'),
   'listing3' )
 puts "User1: Index and Mapping created. Data uploaded"
+
 # User 2..create new index, mapping and populate data
 config['index_url'] = '/user2'
 client = EsClient.new(config)
