@@ -1,0 +1,3 @@
+es_host: 'localhost:9200'
+doc_type: 'document'
+field_count: 30

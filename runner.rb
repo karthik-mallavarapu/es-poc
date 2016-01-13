@@ -1,11 +1,9 @@
 require_relative 'lib/es_client'
 require_relative 'lib/data_parser'
+require 'yaml'
 
 # Default ES host name and doc type.
-config = { 'es_host' => 'localhost:9200', 
-           'doc_type' => 'document', 
-           'field_count' => 30 }
-
+config = YAML.load_file('config.yml')
 # User 1..create new index, mapping and populate data
 config['index_url'] = '/user1'
 client = EsClient.new(config)
