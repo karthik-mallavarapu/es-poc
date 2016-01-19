@@ -42,6 +42,7 @@ module GenericMapping
     property["type"] = data_type
     if data_type == 'string'
       property["analyzer"] = string_analyzer
+      property["search_analyzer"] = "standard"
       property["fields"] = { "raw" => { "type" => "string",
                                         "index" => "not_analyzed" }}
     end
