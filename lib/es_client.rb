@@ -47,12 +47,14 @@ class EsClient
     end
   end
 
+=begin
   def search(query_string, grids)
     query_request = multi_match_query_json(query_string, grids)
     res = HttpClient.post("#{index_url}/#{doc_type}?routing=#{grids.join(',')}", body: query_request.to_json)
     raise "Query request failure #{res.to_s}" unless (res.code == 201 || res.code == 200)
     binding.pry
   end
+=end
 
   def analyzer
     UtilConstants::ANALYZER_NAME
