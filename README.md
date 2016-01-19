@@ -34,4 +34,17 @@ bundle exec ruby runner.rb
   ```
   Data of the form { 1234, 'Outliers', 'Malcom Gladwell', 05-08-2008} is indexed into c0-numeric, c1-string, c2-string, c3-date columns respectively.
   ```
-* Multi-match query TODO
+* __Multi-match query__
+  * In order to restrict query search to specific grids, routing ids must be passed as URL parameters. In addition to that, request body must also have a filter on the field **_routing**
+  ```
+  POST /user1/document/_search?routing=listing1,listing2
+  {
+    "filter": {
+        "terms": {
+           "_routing": [
+              "listing1", "listing2"
+           ]
+        }
+    }
+}
+```
