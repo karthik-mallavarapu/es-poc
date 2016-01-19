@@ -35,7 +35,7 @@ bundle exec ruby runner.rb
   Data of the form { 1234, 'Outliers', 'Malcom Gladwell', 05-08-2008} is indexed into c0-numeric, c1-string, c2-string, c3-date columns respectively.
   ```
 * __Multi-match query__
-  * In order to restrict query search to specific grids, routing ids must be passed as URL parameters. In addition to that, request body must also have a filter on the field **_routing**
+  * In order to restrict query search to specific grids, routing ids must be passed as URL parameters. In addition to that, request body must also have a filter on the field **_routing**. The following examples show how a multi match query can be constructed.
   ```
   POST /user1/document/_search?routing=listing1,listing2
   {
@@ -43,6 +43,40 @@ bundle exec ruby runner.rb
         "terms": {
            "_routing": [
               "listing1", "listing2"
+           ]
+        }
+    }
+}
+
+POST /user1/document/_search?routing=listing,listing2
+{
+    "query": {
+        "multi_match": {
+           "query": "residen",
+           "fields": ["c0-string", "c1-string", "c2-string", "c3-string", "c15-string", "c16-string"]
+        }
+    }, 
+    "filter": {
+        "terms": {
+           "_routing": [
+              "listing1", "listing2"
+           ]
+        }
+    }
+}
+
+POST /user1/document/_search?routing=listing
+{
+    "query": {
+        "multi_match": {
+           "query": 30.060614,
+           "fields": ["c0-decimal", "c1-decimal", "c2-decimal", "c13-decimal", "c15-decimal", "c16-decimal"]
+        }
+    }, 
+    "filter": {
+        "terms": {
+           "_routing": [
+              "listing1"
            ]
         }
     }
