@@ -82,3 +82,28 @@ POST /user1/document/_search?routing=listing
     }
 }
 ```
+* __Constant Score Query__
+  * In order to get the count of document hits and field hits for each document, a constant score query in conjunction with a named query can be used. Constant score query gives a constant score of 1.0 for each hit (ignores scoring) and is thus quick and efficient. The response has a hits array, containing the document hits. Each document response further has a **matched_queries** field, listing the matching fields in that document. Document and field hits can be calculated by parsing the query response. The following is an example of a constant score query:
+ ````
+POST /user1/document/_search?routing=listing1,listing2
+{
+    "_source": false,
+    "size": 100,
+    "query": {
+        "constant_score" : {
+            "query" : {
+                "bool": {
+                    "disable_coord": true,
+                    "should": [                        
+                        {"match" : { "c3-numeric" : {"query": 498960, "_name": "c3-numeric"}}},
+                        {"match" : { "c4-numeric" : {"query": 498960, "_name": "c4-numeric"}}},
+                        {"match" : { "c5-numeric" : {"query": 498960, "_name": "c5-numeric"}}},
+                        {"match" : { "c6-numeric" : {"query": 498960, "_name": "c6-numeric"}}},
+                        {"match" : { "c7-numeric" : {"query": 498960, "_name": "c7-numeric"}}}
+                    ]
+                }                 
+            }
+        }
+    }     
+}
+```
