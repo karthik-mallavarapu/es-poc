@@ -21,9 +21,9 @@ class DataParser
 
   # Expects a block. Iterates over all the data rows and calls the block for
   # each row.
-  def each_row(&block)
-    @csv.each do |row|
-      yield(row) if block_given?
+  def each_slice(&block)
+    @csv.each_slice(1000) do |slice|
+      yield(slice) if block_given?
     end
   end
 

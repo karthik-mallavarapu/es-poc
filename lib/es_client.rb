@@ -36,13 +36,18 @@ class EsClient
   end
 
   def populate_data(parser, grid_id)
-    parser.each_row do |row|
-      data_row = {}
-      row.to_h.values.each_with_index do |value, i|
-        column_es_type = get_es_field_type(value.class.to_s)
-        data_row["c#{i}-#{column_es_type}"] = value
+    index_metadata = { "index" => {"_index" => index_url[1..-1], "_type" => doc_type }}.to_json
+    parser.each_slice do |slice|
+      data_rows_json = ''
+      slice.each do |row|
+        data_row = {}
+        row.to_h.values.each_with_index do |value, i|
+          column_es_type = get_es_field_type(value.class.to_s)
+          data_row["c#{i}-#{column_es_type}"] = value
+        end
+        data_rows_json += index_metadata + "\n" + JSON.generate(data_row) + "\n"
       end
-      res = HttpClient.post("#{index_url}/#{doc_type}?routing=#{grid_id}", body: data_row.to_json)
+      res = HttpClient.post("#{index_url}/#{doc_type}/_bulk?routing=#{grid_id}", body: data_rows_json)
       raise "Data index failure #{res.to_s}" unless (res.code == 201 || res.code == 200)
     end
   end
